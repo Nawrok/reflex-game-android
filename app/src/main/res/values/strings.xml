@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name" translatable="false">REFLEX</string>
+    <string name="title" translatable="false">【ＲＥＦＬＥＸ】</string>
+    <string name="play">Play</string>
+    <string name="try_again">Try Again</string>
+    <string name="lang_pl">Polish Language</string>
+    <string name="lang_en">English Language</string>
+    <string name="score">Score</string>
+    <string name="lang_change">Changed language to ENGLISH</string>
+    <string name="authors">Authors</string>
+    <string-array name="authors_list">
+        <item>Maciej Błażewicz</item>
+        <item>Bartłomiej Małkowski</item>
+        <item>Sebastian Nawrocki</item>
+    </string-array>
+    <string name="exit_menu">Exit to menu</string>
+    <string name="highscore">Highscore</string>
+</resources>

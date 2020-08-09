@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="play">Graj</string>
+    <string name="try_again">Spróbuj Ponownie</string>
+    <string name="lang_pl">Język Polski</string>
+    <string name="lang_en">Język Angielski</string>
+    <string name="score">Wynik</string>
+    <string name="lang_change">Zmieniono język na POLSKI</string>
+    <string name="authors">Autorzy</string>
+    <string name="exit_menu">Wyjście do menu</string>
+    <string name="highscore">Najlepszy wynik</string>
+</resources>
