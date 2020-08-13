@@ -4,32 +4,40 @@
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
 
-    <uses-feature android:name="android.hardware.camera.flash" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false" />
 
     <application
         android:name=".App"
         android:allowBackup="true"
+        android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
         android:isGame="true"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
         android:theme="@style/ReflexTheme">
+
+        <activity
+            android:name=".activities.LightSensorActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ResultActivity"
-            android:configChanges="locale|orientation|uiMode"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.GameActivity"
-            android:configChanges="locale|orientation|uiMode"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.MenuActivity"
-            android:configChanges="locale|orientation|uiMode"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

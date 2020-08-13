@@ -13,52 +13,58 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
 
 import pl.embedded.reflex.R;
 import pl.embedded.reflex.controller.GameController;
 import pl.embedded.reflex.enums.Position;
 import pl.embedded.reflex.model.Game;
-import pl.embedded.reflex.util.LocaleHelper;
 
-public class GameActivity extends AppCompatActivity implements SensorEventListener
+public class GameActivity extends LightSensorActivity implements SensorEventListener
 {
     private static final int TIME = 60_000;
     private GameController gameController;
-    private SensorManager sensorManager;
     private CameraManager cameraManager;
     private String cameraId;
     private Sensor rotationSensor;
     private Vibrator vibrator;
     private CountDownTimer countDownTimer;
-    private long timestamp, timeDelay;
+    private long timestamp, timeDelay, millisUntilFinished;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        hideSystemUI();
-        this.sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        this.rotationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR);
-        this.vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        this.cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+        rotationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR);
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         try
         {
-            this.cameraId = cameraManager.getCameraIdList()[0];
+            cameraId = cameraManager.getCameraIdList()[0];
         }
         catch (CameraAccessException e)
         {
             e.printStackTrace();
         }
-        this.gameController = new GameController(new Game());
-        this.countDownTimer = buildCountDownTimer(TIME, 1000);
-        this.countDownTimer.start();
+        if (savedInstanceState == null)
+        {
+            gameController = new GameController(new Game());
+            gameController.randomizePosition();
+            millisUntilFinished = TIME;
+        }
+        else
+        {
+            gameController = new GameController(savedInstanceState.getParcelable("game"));
+            millisUntilFinished = savedInstanceState.getLong("millis");
+            timestamp = savedInstanceState.getLong("timestamp");
+            timeDelay = savedInstanceState.getLong("timeDelay");
+        }
+        updateUI();
     }
 
     @Override
@@ -76,52 +82,30 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     }
 
     @Override
-    protected void onDestroy()
+    protected void onStart()
     {
-        super.onDestroy();
+        super.onStart();
+        countDownTimer = createTimer(millisUntilFinished);
+        countDownTimer.start();
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
         countDownTimer.cancel();
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus)
-    {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus)
-        {
-            hideSystemUI();
-        }
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase)
-    {
-        super.attachBaseContext(LocaleHelper.onAttach(newBase));
-    }
-
-    private void hideSystemUI()
-    {
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
     }
 
     @Override
     public void onSensorChanged(SensorEvent event)
     {
-        ((ImageView) findViewById(R.id.position)).setImageResource(gameController.getPosition().getImage());
-        ((TextView) findViewById(R.id.score)).setText(String.valueOf(gameController.getScore()));
         if (event.sensor.getType() == Sensor.TYPE_GAME_ROTATION_VECTOR)
         {
             float[] rotationMatrix = new float[9];
             SensorManager.getRotationMatrixFromVector(rotationMatrix, event.values);
             float[] orientation = new float[3];
             SensorManager.getOrientation(rotationMatrix, orientation);
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < orientation.length; i++)
             {
                 orientation[i] = (float) Math.toDegrees(orientation[i]);
             }
@@ -130,17 +114,18 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
             {
                 timeDelay += (event.timestamp - timestamp) / 1_000_000;
                 Position devicePos = getDevicePosition(orientation);
-                if (gameController.getPosition() == devicePos)
+                if (gameController.getGame().getPosition() == devicePos)
                 {
                     gameController.addScore(10);
                     gameController.randomizePosition();
+                    updateUI();
                     flashTorch();
                     timeDelay = 0;
                 }
-                else if (devicePos != Position.IDLE && gameController.getPosition() != devicePos && timeDelay > 600)
+                else if (devicePos != Position.IDLE && gameController.getGame().getPosition() != devicePos && timeDelay > 650)
                 {
-                    vibrator.vibrate(VibrationEffect.createOneShot(150, 255));
-                    timeDelay = 150;
+                    vibrator.vibrate(VibrationEffect.createOneShot(200, 200));
+                    timeDelay = 100;
                 }
             }
             timestamp = event.timestamp;
@@ -152,22 +137,46 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     {
     }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("game", gameController.getGame());
+        outState.putLong("millis", millisUntilFinished);
+        outState.putLong("timestamp", timestamp);
+        outState.putLong("timeDelay", timeDelay);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
     private void endGame(int score)
     {
+        finish();
+        Handler handler = new Handler();
+        for (int i = 0; i < 3; i++)
+        {
+            handler.postDelayed(this::flashTorch, i * 350);
+        }
         Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra("score", score);
         startActivity(intent);
-        finish();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
-    private CountDownTimer buildCountDownTimer(long time, long interval)
+    private CountDownTimer createTimer(long millisUntilFinished)
     {
-        return new CountDownTimer(time, interval)
+        return new CountDownTimer(millisUntilFinished, 100)
         {
             @Override
             public void onTick(long millisUntilFinished)
             {
-                int seconds = (int) millisUntilFinished / (int) interval;
+                GameActivity.this.millisUntilFinished = millisUntilFinished;
+                int seconds = (int) millisUntilFinished / 1000;
                 ((TextView) findViewById(R.id.timer)).setText(String.valueOf(seconds));
                 ((ProgressBar) findViewById(R.id.timer_progress)).setProgress(seconds);
             }
@@ -175,10 +184,15 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
             @Override
             public void onFinish()
             {
-                vibrator.vibrate(VibrationEffect.createWaveform(new long[]{0, 250, 100, 250, 100, 250}, -1));
-                endGame(gameController.getScore());
+                endGame(gameController.getGame().getScore());
             }
         };
+    }
+
+    private void updateUI()
+    {
+        ((ImageView) findViewById(R.id.position)).setImageResource(gameController.getGame().getPosition().getImage());
+        ((TextView) findViewById(R.id.score)).setText(String.valueOf(gameController.getGame().getScore()));
     }
 
     private Position getDevicePosition(float[] orientation)
@@ -208,16 +222,15 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
     private void flashTorch()
     {
-        Handler handler = new Handler();
-        switchFlashLight(true);
-        handler.postDelayed(() -> switchFlashLight(false), 150);
+        enableTorch(true);
+        new Handler().postDelayed(() -> enableTorch(false), 150);
     }
 
-    private void switchFlashLight(boolean status)
+    private void enableTorch(boolean enabled)
     {
         try
         {
-            cameraManager.setTorchMode(cameraId, status);
+            cameraManager.setTorchMode(cameraId, enabled);
         }
         catch (CameraAccessException e)
         {

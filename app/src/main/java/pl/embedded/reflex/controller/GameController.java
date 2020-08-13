@@ -14,17 +14,11 @@ public class GameController
     public GameController(Game game)
     {
         this.game = game;
-        randomizePosition();
     }
 
-    public int getScore()
+    public final Game getGame()
     {
-        return game.getScore();
-    }
-
-    public Position getPosition()
-    {
-        return game.getPosition();
+        return game;
     }
 
     public void addScore(int score)
