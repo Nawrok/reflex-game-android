@@ -5,10 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.zeugmasolutions.localehelper.Locales;
-
-import java.util.Locale;
-
 import pl.embedded.reflex.R;
 
 public class MenuActivity extends LightSensorActivity
@@ -23,7 +19,8 @@ public class MenuActivity extends LightSensorActivity
 
     public void onClickChangeLang(View view)
     {
-        switch (view.getId())
+        //TODO BUG - LANG NOT PERSIST AFTER RESTART
+        /*switch (view.getId())
         {
             case (R.id.english_lang_button):
             {
@@ -35,7 +32,7 @@ public class MenuActivity extends LightSensorActivity
                 updateLocale(Locales.INSTANCE.getPolish());
                 break;
             }
-        }
+        }*/
     }
 
     public void onClickPlay(View view)

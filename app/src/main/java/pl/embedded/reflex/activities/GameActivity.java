@@ -118,6 +118,13 @@ public class GameActivity extends LightSensorActivity
     }
 
     @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    @Override
     protected void onSaveInstanceState(@NonNull Bundle outState)
     {
         super.onSaveInstanceState(outState);
@@ -125,13 +132,6 @@ public class GameActivity extends LightSensorActivity
         outState.putLong("millis", millisUntilFinished);
         outState.putLong("timestamp", timestamp);
         outState.putLong("timeDelay", timeDelay);
-    }
-
-    @Override
-    public void onBackPressed()
-    {
-        super.onBackPressed();
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     public Position getDevicePosition(float[] orientation)
@@ -167,7 +167,9 @@ public class GameActivity extends LightSensorActivity
 
     public void updateUI()
     {
-        ((ImageView) findViewById(R.id.position)).setImageResource(gameController.getGame().getPosition().getImage());
+        ImageView arrow = findViewById(R.id.position);
+        arrow.setImageResource(gameController.getGame().getPosition().getImage());
+        arrow.setContentDescription(gameController.getGame().getPosition().name());
         ((TextView) findViewById(R.id.score)).setText(String.valueOf(gameController.getGame().getScore()));
     }
 

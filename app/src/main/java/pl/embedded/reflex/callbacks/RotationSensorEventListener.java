@@ -4,14 +4,16 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.VibrationEffect;
 
+import pl.embedded.reflex.R;
 import pl.embedded.reflex.activities.GameActivity;
 import pl.embedded.reflex.enums.Position;
 
 public class RotationSensorEventListener implements SensorEventListener
 {
-    private GameActivity gameActivity;
+    private final GameActivity gameActivity;
 
     public RotationSensorEventListener(GameActivity gameActivity)
     {
@@ -42,6 +44,7 @@ public class RotationSensorEventListener implements SensorEventListener
                     gameActivity.getGameController().addScore(10);
                     gameActivity.getGameController().randomizePosition();
                     gameActivity.updateUI();
+                    MediaPlayer.create(gameActivity, R.raw.point).start();
                     gameActivity.flashTorch();
                     gameActivity.setTimeDelay(0);
                 }

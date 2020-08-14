@@ -10,7 +10,7 @@ public enum Position
     UP(R.drawable.arrow_up),
     DOWN(R.drawable.arrow_down);
 
-    private int drawable_id;
+    private final int drawable_id;
 
     Position(int drawable_id)
     {

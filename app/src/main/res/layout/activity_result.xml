@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="50dp">
 
         <TextView
             android:id="@+id/label_highscore"
@@ -22,9 +22,8 @@
             android:text="@string/highscore"
             android:textAlignment="center"
             android:textAllCaps="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="8pt" />
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            android:textSize="7pt" />
 
         <TextView
             android:id="@+id/highscore"
@@ -35,15 +34,17 @@
             android:background="@drawable/round_corners"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@android:color/white"
-            android:textSize="11pt" />
+            android:textSize="10pt" />
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/score_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@id/try_again_button"
         android:layout_below="@id/highscore_layout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="35dp">
+        android:layout_marginTop="30dp">
 
         <TextView
             android:id="@+id/label_score_result"
@@ -55,8 +56,7 @@
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="14pt" />
+            android:textSize="12pt" />
 
         <TextView
             android:id="@+id/score_result"
@@ -67,24 +67,24 @@
             android:background="@drawable/round_corners"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@android:color/white"
-            android:textSize="18pt" />
+            android:textSize="16pt" />
     </RelativeLayout>
 
     <Button
         android:id="@+id/try_again_button"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="175dp"
+        android:layout_height="175dp"
         android:layout_above="@id/exit_menu_button"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="75dp"
+        android:layout_marginBottom="20pt"
         android:background="@drawable/round_button"
         android:onClick="onClickTryAgain"
         android:text="@string/try_again"
         android:textAlignment="center"
         android:textAllCaps="true"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
         android:textColor="@android:color/white"
-        android:textSize="12pt" />
+        android:textSize="10pt" />
 
     <Button
         android:id="@+id/exit_menu_button"
@@ -98,8 +98,8 @@
         android:text="@string/exit_menu"
         android:textAlignment="center"
         android:textAllCaps="true"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
         android:textColor="@android:color/white"
-        android:textSize="10pt" />
+        android:textSize="8pt" />
 
 </RelativeLayout>

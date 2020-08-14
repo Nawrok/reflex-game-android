@@ -26,12 +26,14 @@ public class ResultActivity extends LightSensorActivity
     public void onClickTryAgain(View view)
     {
         startActivity(new Intent(this, GameActivity.class));
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
     }
 
     public void onClickExitToMenu(View view)
     {
         onBackPressed();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     private int saveHighscore(int score)

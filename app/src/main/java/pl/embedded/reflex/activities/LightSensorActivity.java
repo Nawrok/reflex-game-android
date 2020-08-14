@@ -7,11 +7,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
-import com.zeugmasolutions.localehelper.LocaleAwareCompatActivity;
-
 import pl.embedded.reflex.callbacks.LightSensorEventListener;
 
-public class LightSensorActivity extends LocaleAwareCompatActivity
+public class LightSensorActivity extends BaseActivity
 {
     protected SensorManager sensorManager;
     private Sensor lightSensor;
