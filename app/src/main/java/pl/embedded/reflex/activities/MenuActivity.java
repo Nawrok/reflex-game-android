@@ -46,12 +46,12 @@ public class MenuActivity extends LightSensorActivity
 
     private void loadAuthors()
     {
-        TextView authors = findViewById(R.id.authors_list);
         StringBuilder sb = new StringBuilder();
         for (String author : getResources().getStringArray(R.array.authors_list))
         {
             sb.append(author).append(System.lineSeparator());
         }
+        TextView authors = findViewById(R.id.authors_list);
         authors.setText(sb.toString().trim());
     }
 }
