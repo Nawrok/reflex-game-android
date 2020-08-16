@@ -9,7 +9,7 @@ import java.util.Locale;
 
 import pl.embedded.reflex.R;
 
-public class MenuActivity extends LightSensorActivity
+public class MenuActivity extends BaseActivity
 {
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -38,7 +38,6 @@ public class MenuActivity extends LightSensorActivity
     public void onClickPlay(View view)
     {
         startActivity(new Intent(this, GameActivity.class));
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     private void loadAuthors()

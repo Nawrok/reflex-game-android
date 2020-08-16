@@ -15,4 +15,5 @@
     </string-array>
     <string name="exit_menu">Exit to menu</string>
     <string name="highscore">Highscore</string>
+    <string name="position">Position</string>
 </resources>

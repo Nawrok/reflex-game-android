@@ -16,7 +16,7 @@ public class GameController
         this.game = game;
     }
 
-    public final Game getGame()
+    public Game getGame()
     {
         return game;
     }
