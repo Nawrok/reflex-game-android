@@ -3,8 +3,8 @@ package pl.embedded.reflex.controller;
 import java.security.SecureRandom;
 import java.util.Arrays;
 
-import pl.embedded.reflex.enums.Position;
 import pl.embedded.reflex.model.Game;
+import pl.embedded.reflex.model.Position;
 
 public class GameController
 {

@@ -32,7 +32,6 @@ public class BaseActivity extends LocaleAwareCompatActivity implements LightEven
             Toast.makeText(this, R.string.lang_change, Toast.LENGTH_SHORT).show();
             LOCALE = Locale.getDefault();
         }
-
         sensorManager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
         if (savedInstanceState == null)
         {

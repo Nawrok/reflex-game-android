@@ -1,4 +1,4 @@
-package pl.embedded.reflex.enums;
+package pl.embedded.reflex.model;
 
 import pl.embedded.reflex.R;
 

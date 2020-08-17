@@ -38,7 +38,7 @@ public class LightDetector implements SensorEventListener
         {
             dark = true;
         }
-        if (illuminance > 35.0)
+        if (illuminance > 40.0)
         {
             dark = false;
         }

@@ -17,7 +17,6 @@ public class ResultActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
-
         int score = getIntent().getIntExtra("score", 0);
         ((TextView) findViewById(R.id.highscore)).setText(String.valueOf(saveHighscore(score)));
         ((TextView) findViewById(R.id.score_result)).setText(String.valueOf(score));

@@ -2,13 +2,11 @@ package pl.embedded.reflex.model;
 
 import org.parceler.Parcel;
 
-import pl.embedded.reflex.enums.Position;
-
-@Parcel
+@Parcel(Parcel.Serialization.BEAN)
 public class Game
 {
-    int score;
-    Position position;
+    private int score;
+    private Position position;
 
     public int getScore()
     {
