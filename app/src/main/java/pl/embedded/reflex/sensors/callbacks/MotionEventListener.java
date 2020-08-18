@@ -1,4 +1,4 @@
-package pl.embedded.reflex.sensors.listeners;
+package pl.embedded.reflex.sensors.callbacks;
 
 import pl.embedded.reflex.model.Position;
 

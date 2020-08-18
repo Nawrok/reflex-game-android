@@ -19,7 +19,7 @@ public class MenuActivity extends BaseActivity
         loadAuthors();
     }
 
-    public void onClickChangeLang(View view)
+    public void changeLanguage(View view)
     {
         switch (view.getId())
         {
@@ -35,7 +35,7 @@ public class MenuActivity extends BaseActivity
         }
     }
 
-    public void onClickPlay(View view)
+    public void startGame(View view)
     {
         startActivity(new Intent(this, GameActivity.class));
     }

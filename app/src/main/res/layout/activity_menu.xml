@@ -32,7 +32,7 @@
             android:layout_marginStart="30dp"
             android:background="@drawable/flag_pl"
             android:contentDescription="@string/lang_pl"
-            android:onClick="onClickChangeLang" />
+            android:onClick="changeLanguage" />
 
         <ImageButton
             android:id="@+id/english_lang_button"
@@ -43,7 +43,7 @@
             android:layout_marginEnd="30dp"
             android:background="@drawable/flag_en"
             android:contentDescription="@string/lang_en"
-            android:onClick="onClickChangeLang" />
+            android:onClick="changeLanguage" />
 
     </RelativeLayout>
 
@@ -53,7 +53,7 @@
         android:layout_height="175dp"
         android:layout_centerInParent="true"
         android:background="@drawable/round_button"
-        android:onClick="onClickPlay"
+        android:onClick="startGame"
         android:text="@string/play"
         android:textAlignment="center"
         android:textAllCaps="true"

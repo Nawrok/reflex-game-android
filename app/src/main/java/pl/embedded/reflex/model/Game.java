@@ -8,6 +8,16 @@ public class Game
     private int score;
     private Position position;
 
+    public Game()
+    {
+    }
+
+    public Game(Game game)
+    {
+        this.score = game.score;
+        this.position = game.position;
+    }
+
     public int getScore()
     {
         return score;

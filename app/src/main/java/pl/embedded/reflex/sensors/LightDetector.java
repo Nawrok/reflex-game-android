@@ -5,7 +5,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-import pl.embedded.reflex.sensors.listeners.LightEventListener;
+import pl.embedded.reflex.sensors.callbacks.LightEventListener;
 
 public class LightDetector implements SensorEventListener
 {
@@ -34,11 +34,11 @@ public class LightDetector implements SensorEventListener
     {
         double illuminance = event.values[0];
         boolean prevDark = dark;
-        if (illuminance < 20.0)
+        if (illuminance < 30.0)
         {
             dark = true;
         }
-        if (illuminance > 40.0)
+        if (illuminance > 80.0)
         {
             dark = false;
         }

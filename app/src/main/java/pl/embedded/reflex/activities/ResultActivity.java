@@ -1,13 +1,10 @@
 package pl.embedded.reflex.activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import pl.embedded.reflex.App;
 import pl.embedded.reflex.R;
 
 public class ResultActivity extends BaseActivity
@@ -17,31 +14,23 @@ public class ResultActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
-        int score = getIntent().getIntExtra("score", 0);
-        ((TextView) findViewById(R.id.highscore)).setText(String.valueOf(saveHighscore(score)));
-        ((TextView) findViewById(R.id.score_result)).setText(String.valueOf(score));
+        showScores(getIntent().getIntExtra("score", 0), getIntent().getIntExtra("highscore", 0));
     }
 
-    public void onClickTryAgain(View view)
+    public void startOverGame(View view)
     {
         startActivity(new Intent(this, GameActivity.class));
         finish();
     }
 
-    public void onClickExitToMenu(View view)
+    public void exitToMenu(View view)
     {
         onBackPressed();
     }
 
-    private int saveHighscore(int score)
+    private void showScores(int score, int highscore)
     {
-        SharedPreferences preferences = getSharedPreferences(App.GAME_PREFS, Context.MODE_PRIVATE);
-        int highscore = preferences.getInt(App.GAME_PREFS_HIGHSCORE, 0);
-        if (highscore < score)
-        {
-            preferences.edit().putInt(App.GAME_PREFS_HIGHSCORE, score).apply();
-            highscore = score;
-        }
-        return highscore;
+        ((TextView) findViewById(R.id.score_result)).setText(String.valueOf(score));
+        ((TextView) findViewById(R.id.highscore)).setText(String.valueOf(highscore));
     }
 }

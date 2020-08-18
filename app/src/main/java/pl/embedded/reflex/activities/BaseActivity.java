@@ -15,7 +15,7 @@ import java.util.Locale;
 
 import pl.embedded.reflex.R;
 import pl.embedded.reflex.sensors.LightDetector;
-import pl.embedded.reflex.sensors.listeners.LightEventListener;
+import pl.embedded.reflex.sensors.callbacks.LightEventListener;
 
 public class BaseActivity extends LocaleAwareCompatActivity implements LightEventListener
 {

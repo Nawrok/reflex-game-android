@@ -6,7 +6,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 import pl.embedded.reflex.model.Position;
-import pl.embedded.reflex.sensors.listeners.MotionEventListener;
+import pl.embedded.reflex.sensors.callbacks.MotionEventListener;
 
 public class MotionDetector implements SensorEventListener
 {
