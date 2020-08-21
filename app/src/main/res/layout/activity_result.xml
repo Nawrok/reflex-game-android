@@ -5,101 +5,191 @@
     android:layout_height="match_parent"
     tools:context=".activities.ResultActivity">
 
-
     <RelativeLayout
-        android:id="@+id/highscore_layout"
+        android:id="@+id/first_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp">
-
-        <TextView
-            android:id="@+id/label_highscore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="3dp"
-            android:text="@string/highscore"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-            android:textSize="7pt" />
-
-        <TextView
-            android:id="@+id/highscore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/label_highscore"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/round_corners"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="@android:color/white"
-            android:textSize="10pt" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/score_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/try_again_button"
-        android:layout_below="@id/highscore_layout"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp">
 
-        <TextView
-            android:id="@+id/label_score_result"
+        <RelativeLayout
+            android:id="@+id/highscore_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="3dp"
-            android:text="@string/score"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="12pt" />
+            android:layout_margin="5dp">
 
-        <TextView
-            android:id="@+id/score_result"
+            <TextView
+                android:id="@+id/label_highscore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="3dp"
+                android:text="@string/highscore"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/highscore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/label_highscore"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/round_corners"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@android:color/white"
+                android:textSize="24sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/highscore_moves_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/label_score_result"
+            android:layout_below="@id/highscore_layout"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/round_corners"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="@android:color/white"
-            android:textSize="16pt" />
+            android:layout_margin="5dp">
+
+            <TextView
+                android:id="@+id/label_highscore_moves"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="3dp"
+                android:text="@string/moves"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/highscore_moves"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/label_highscore_moves"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/round_corners"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@android:color/white"
+                android:textSize="24sp" />
+
+        </RelativeLayout>
+
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/try_again_button"
-        android:layout_width="175dp"
-        android:layout_height="175dp"
-        android:layout_above="@id/exit_menu_button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20pt"
-        android:background="@drawable/round_button"
-        android:onClick="startOverGame"
-        android:text="@string/try_again"
-        android:textAlignment="center"
-        android:textAllCaps="true"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-        android:textColor="@android:color/white"
-        android:textSize="10pt" />
-
-    <Button
-        android:id="@+id/exit_menu_button"
+    <RelativeLayout
+        android:id="@+id/second_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/first_layout"
+        android:layout_centerHorizontal="true">
+
+        <RelativeLayout
+            android:id="@+id/score_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp">
+
+            <TextView
+                android:id="@+id/label_score_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="3dp"
+                android:text="@string/score"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="26sp" />
+
+            <TextView
+                android:id="@+id/score_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/label_score_result"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/round_corners"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@android:color/white"
+                android:textSize="34sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/score_moves_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_toEndOf="@id/score_layout">
+
+            <TextView
+                android:id="@+id/label_score_result_moves"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="3dp"
+                android:text="@string/moves"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="26sp" />
+
+            <TextView
+                android:id="@+id/score_result_moves"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/label_score_result_moves"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/round_corners"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@android:color/white"
+                android:textSize="34sp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/buttons_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/second_layout"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp"
-        android:background="@drawable/round_corners"
-        android:onClick="exitToMenu"
-        android:text="@string/exit_menu"
-        android:textAlignment="center"
-        android:textAllCaps="true"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-        android:textColor="@android:color/white"
-        android:textSize="8pt" />
+        android:layout_marginBottom="30dp">
+
+        <Button
+            android:id="@+id/try_again_button"
+            android:layout_width="200sp"
+            android:layout_height="200sp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="50dp"
+            android:background="@drawable/round_button"
+            android:onClick="startOverGame"
+            android:text="@string/try_again"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/exit_menu_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/try_again_button"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/round_corners"
+            android:onClick="exitToMenu"
+            android:text="@string/exit_menu"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

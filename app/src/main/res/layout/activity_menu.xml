@@ -3,33 +3,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:padding="20dp"
     android:theme="@style/ReflexTheme"
     tools:context=".activities.MenuActivity">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/title_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp">
+        android:layout_marginTop="10dp">
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="84dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="5dp"
+            android:autoSizeTextType="uniform"
+            android:maxLines="1"
             android:text="@string/title"
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            android:textSize="20pt" />
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
         <ImageButton
             android:id="@+id/polish_lang_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_below="@id/title"
-            android:layout_marginStart="30dp"
+            android:layout_marginStart="3dp"
             android:background="@drawable/flag_pl"
             android:contentDescription="@string/lang_pl"
             android:onClick="changeLanguage" />
@@ -40,7 +41,7 @@
             android:layout_height="50dp"
             android:layout_below="@id/title"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="3dp"
             android:background="@drawable/flag_en"
             android:contentDescription="@string/lang_en"
             android:onClick="changeLanguage" />
@@ -59,7 +60,7 @@
         android:textAllCaps="true"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
         android:textColor="@android:color/white"
-        android:textSize="14pt" />
+        android:textSize="32sp" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -74,7 +75,7 @@
             android:text="@string/authors"
             android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            android:textSize="7pt" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/authors_list"
@@ -87,6 +88,5 @@
             android:textSize="18sp" />
 
     </RelativeLayout>
-
 
 </RelativeLayout>

@@ -1,13 +1,13 @@
 package pl.embedded.reflex;
 
+import android.app.Application;
+
 import androidx.appcompat.app.AppCompatDelegate;
 
-import com.zeugmasolutions.localehelper.LocaleAwareApplication;
-
-public class App extends LocaleAwareApplication
+public class App extends Application
 {
-    public static final String GAME_PREFS = "Game";
     public static final String GAME_PREFS_HIGHSCORE = "Highscore";
+    public static final String GAME_PREFS_MOVES = "Moves";
 
     @Override
     public void onCreate()

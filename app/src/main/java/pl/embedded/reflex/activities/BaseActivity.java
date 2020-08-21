@@ -1,7 +1,6 @@
 package pl.embedded.reflex.activities;
 
 import android.app.Service;
-import android.content.Intent;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -10,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.zeugmasolutions.localehelper.LocaleAwareCompatActivity;
+import com.zeugmasolutions.localehelper.LocaleHelper;
 
 import java.util.Locale;
 
@@ -17,9 +17,8 @@ import pl.embedded.reflex.R;
 import pl.embedded.reflex.sensors.LightDetector;
 import pl.embedded.reflex.sensors.callbacks.LightEventListener;
 
-public class BaseActivity extends LocaleAwareCompatActivity implements LightEventListener
+public abstract class BaseActivity extends LocaleAwareCompatActivity implements LightEventListener
 {
-    private static Locale LOCALE = Locale.getDefault();
     protected SensorManager sensorManager;
     private LightDetector lightDetector;
 
@@ -27,19 +26,12 @@ public class BaseActivity extends LocaleAwareCompatActivity implements LightEven
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        if (!LOCALE.equals(Locale.getDefault()))
+        sensorManager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
+        lightDetector = new LightDetector(this, (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES));
+        if (getIntent().getBooleanExtra("localeChanged", false))
         {
             Toast.makeText(this, R.string.lang_change, Toast.LENGTH_SHORT).show();
-            LOCALE = Locale.getDefault();
-        }
-        sensorManager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
-        if (savedInstanceState == null)
-        {
-            lightDetector = new LightDetector(this, false);
-        }
-        else
-        {
-            lightDetector = new LightDetector(this, savedInstanceState.getBoolean("dark"));
+            getIntent().removeExtra("localeChanged");
         }
     }
 
@@ -55,6 +47,17 @@ public class BaseActivity extends LocaleAwareCompatActivity implements LightEven
     {
         super.onPause();
         lightDetector.unregister(sensorManager);
+        if (isFinishing())
+        {
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     @Override
@@ -66,30 +69,10 @@ public class BaseActivity extends LocaleAwareCompatActivity implements LightEven
     @Override
     public void updateLocale(@NonNull Locale locale)
     {
-        if (!locale.equals(Locale.getDefault()))
+        if (!locale.equals(LocaleHelper.INSTANCE.getLocale(this)))
         {
             super.updateLocale(locale);
+            getIntent().putExtra("localeChanged", true);
         }
-    }
-
-    @Override
-    public void startActivity(Intent intent)
-    {
-        super.startActivity(intent);
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-    }
-
-    @Override
-    public void onBackPressed()
-    {
-        super.onBackPressed();
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-    }
-
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState)
-    {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean("dark", AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES);
     }
 }

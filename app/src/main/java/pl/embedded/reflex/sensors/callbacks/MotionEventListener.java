@@ -4,5 +4,5 @@ import pl.embedded.reflex.model.Position;
 
 public interface MotionEventListener
 {
-    void onMotionChanged(Position position, long eventTimestamp);
+    void onMotionChanged(Position position, double speed, long timestamp);
 }

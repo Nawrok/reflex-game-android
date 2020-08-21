@@ -36,8 +36,8 @@ public class GameActivity extends BaseActivity implements GameView
         else
         {
             gamePresenter = new GamePresenter(this, Parcels.unwrap(savedInstanceState.getParcelable("game")));
-            gamePresenter.setTimestamp(savedInstanceState.getLong("timestamp"));
-            gamePresenter.setTimeCooldown(savedInstanceState.getLong("timeCooldown"));
+            gamePresenter.setLastUpdate(savedInstanceState.getLong("lastUpdate"));
+            gamePresenter.setCooldown(savedInstanceState.getLong("cooldown"));
             gamePresenter.setTimeUntilFinished(savedInstanceState.getLong("timeUntilFinished"));
         }
         gamePresenter.attach(this);
@@ -87,12 +87,12 @@ public class GameActivity extends BaseActivity implements GameView
     }
 
     @Override
-    public void switchToResultView(int score)
+    public void switchToResultView(int score, int moves)
     {
-        int highscore = gamePresenter.saveHighscore(getSharedPreferences(App.GAME_PREFS, Context.MODE_PRIVATE), score);
+        gamePresenter.saveGameResult(getSharedPreferences(App.class.getName(), Context.MODE_PRIVATE), score, moves);
         startActivity(new Intent(this, ResultActivity.class)
                 .putExtra("score", score)
-                .putExtra("highscore", highscore));
+                .putExtra("moves", moves));
         finish();
     }
 
@@ -100,9 +100,9 @@ public class GameActivity extends BaseActivity implements GameView
     protected void onSaveInstanceState(@NonNull Bundle outState)
     {
         super.onSaveInstanceState(outState);
-        outState.putParcelable("game", Parcels.wrap(gamePresenter.getGame()));
-        outState.putLong("timestamp", gamePresenter.getTimestamp());
-        outState.putLong("timeCooldown", gamePresenter.getTimeCooldown());
+        outState.putParcelable("game", gamePresenter.getGameParcelable());
+        outState.putLong("lastUpdate", gamePresenter.getLastUpdate());
+        outState.putLong("cooldown", gamePresenter.getCooldown());
         outState.putLong("timeUntilFinished", gamePresenter.getTimeUntilFinished());
     }
 }

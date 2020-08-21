@@ -8,5 +8,5 @@ public interface GameView
 
     void showGameTimer(String time, int progress);
 
-    void switchToResultView(int score);
+    void switchToResultView(int score, int moves);
 }

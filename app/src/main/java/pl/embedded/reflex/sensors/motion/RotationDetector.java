@@ -1,4 +1,4 @@
-package pl.embedded.reflex.sensors;
+package pl.embedded.reflex.sensors.motion;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -6,17 +6,16 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 import pl.embedded.reflex.model.Position;
-import pl.embedded.reflex.sensors.callbacks.MotionEventListener;
+import pl.embedded.reflex.sensors.callbacks.RotationEventListener;
 
-public class MotionDetector implements SensorEventListener
+public class RotationDetector implements SensorEventListener
 {
-    private final float[] rotationMatrix, orientationMatrix;
-    private final MotionEventListener listener;
+    private final static float[] rotationMatrix = new float[9];
+    private final static float[] orientationMatrix = new float[3];
+    private final RotationEventListener listener;
 
-    public MotionDetector(MotionEventListener listener)
+    public RotationDetector(RotationEventListener listener)
     {
-        this.rotationMatrix = new float[9];
-        this.orientationMatrix = new float[3];
         this.listener = listener;
     }
 
@@ -40,7 +39,7 @@ public class MotionDetector implements SensorEventListener
         {
             orientationMatrix[i] = (float) Math.toDegrees(orientationMatrix[i]);
         }
-        listener.onMotionChanged(getDevicePosition(orientationMatrix), event.timestamp);
+        listener.onRotationChanged(getDevicePosition(), event.timestamp);
     }
 
     @Override
@@ -49,25 +48,24 @@ public class MotionDetector implements SensorEventListener
 
     }
 
-    private Position getDevicePosition(float[] orientationMatrix)
+    private Position getDevicePosition()
     {
-        double angle_x = orientationMatrix[2];
-        double angle_y = orientationMatrix[1];
-
+        double yAxis = orientationMatrix[1];
+        double xAxis = orientationMatrix[2];
         Position position = Position.IDLE;
-        if (angle_x < -35.0)
+        if (xAxis < -35.0)
         {
             position = Position.LEFT;
         }
-        if (angle_x > 35.0)
+        if (xAxis > 35.0)
         {
             position = Position.RIGHT;
         }
-        if (angle_y < -30.0)
+        if (yAxis < -30.0)
         {
             position = Position.DOWN;
         }
-        if (angle_y > 30.0)
+        if (yAxis > 30.0)
         {
             position = Position.UP;
         }

@@ -5,18 +5,8 @@ import org.parceler.Parcel;
 @Parcel(Parcel.Serialization.BEAN)
 public class Game
 {
-    private int score;
+    private int score, moves;
     private Position position;
-
-    public Game()
-    {
-    }
-
-    public Game(Game game)
-    {
-        this.score = game.score;
-        this.position = game.position;
-    }
 
     public int getScore()
     {
@@ -26,6 +16,16 @@ public class Game
     public void setScore(int score)
     {
         this.score = score;
+    }
+
+    public int getMoves()
+    {
+        return moves;
+    }
+
+    public void setMoves(int moves)
+    {
+        this.moves = moves;
     }
 
     public Position getPosition()

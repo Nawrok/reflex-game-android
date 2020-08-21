@@ -5,8 +5,11 @@ import android.content.SharedPreferences;
 import android.hardware.SensorManager;
 import android.hardware.camera2.CameraManager;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+
+import org.parceler.Parcels;
 
 import java.security.SecureRandom;
 import java.util.Arrays;
@@ -16,9 +19,9 @@ import pl.embedded.reflex.R;
 import pl.embedded.reflex.model.Game;
 import pl.embedded.reflex.model.Position;
 import pl.embedded.reflex.sensors.AudioPlayer;
-import pl.embedded.reflex.sensors.MotionDetector;
 import pl.embedded.reflex.sensors.Torch;
 import pl.embedded.reflex.sensors.callbacks.MotionEventListener;
+import pl.embedded.reflex.sensors.motion.MotionDetector;
 import pl.embedded.reflex.util.timer.Timer;
 import pl.embedded.reflex.util.timer.TimerListener;
 import pl.embedded.reflex.view.GameView;
@@ -33,7 +36,7 @@ public class GamePresenter extends BasePresenter<GameView> implements MotionEven
     private final Vibrator vibrator;
     private final AudioPlayer audioPlayer;
     private Timer timer;
-    private long timestamp, timeCooldown, timeUntilFinished;
+    private long lastUpdate, cooldown, timeUntilFinished;
 
     public GamePresenter(Context context, Game game)
     {
@@ -52,10 +55,12 @@ public class GamePresenter extends BasePresenter<GameView> implements MotionEven
 
     public void addGameScore(int score)
     {
-        if (score >= 0)
-        {
-            game.setScore(game.getScore() + score);
-        }
+        game.setScore(game.getScore() + score);
+    }
+
+    public void addGameMoves(int moves)
+    {
+        game.setMoves(game.getMoves() + moves);
     }
 
     public void randomizeGamePosition()
@@ -70,47 +75,49 @@ public class GamePresenter extends BasePresenter<GameView> implements MotionEven
         game.setPosition(position);
     }
 
-    public int saveHighscore(SharedPreferences preferences, int score)
+    public void saveGameResult(SharedPreferences preferences, int score, int moves)
     {
         int highscore = preferences.getInt(App.GAME_PREFS_HIGHSCORE, 0);
         if (highscore < score)
         {
-            preferences.edit().putInt(App.GAME_PREFS_HIGHSCORE, score).apply();
-            highscore = score;
+            preferences
+                    .edit()
+                    .putInt(App.GAME_PREFS_HIGHSCORE, score)
+                    .putInt(App.GAME_PREFS_MOVES, moves)
+                    .apply();
         }
-        return highscore;
     }
 
     @Override
-    public void onMotionChanged(Position position, long eventTimestamp)
+    public void onMotionChanged(Position position, double speed, long timestamp)
     {
-        if (timestamp != 0)
+        if (lastUpdate != 0)
         {
-            timeCooldown += (eventTimestamp - timestamp) / 1_000_000;
+            cooldown += (timestamp - lastUpdate) / 1_000_000;
             if (position == game.getPosition())
             {
-                addGameScore(10);
+                addGameScore(Math.toIntExact(Math.round(10.0 * speed)));
+                addGameMoves(1);
                 randomizeGamePosition();
                 displayGameScorePosition();
                 torch.flash();
                 audioPlayer.play(R.raw.point);
-                timeCooldown = 0;
+                cooldown = 0;
             }
-            else if (position != Position.IDLE && timeCooldown > 500)
+            if (position != Position.IDLE && cooldown >= 500)
             {
-                vibrator.vibrate(VibrationEffect.createOneShot(200, 200));
-                timeCooldown = 0;
+                vibrator.vibrate(VibrationEffect.createOneShot(250, VibrationEffect.DEFAULT_AMPLITUDE));
+                cooldown = 0;
             }
         }
-        timestamp = eventTimestamp;
+        lastUpdate = timestamp;
     }
 
     @Override
     public void onTick(long millisUntilFinished)
     {
         timeUntilFinished = millisUntilFinished;
-        int time = (int) millisUntilFinished / 100;
-        view.showGameTimer(String.valueOf(time / 10), time);
+        view.showGameTimer(String.valueOf(Math.round(millisUntilFinished / 1000.0)), Math.toIntExact(millisUntilFinished));
     }
 
     @Override
@@ -121,7 +128,7 @@ public class GamePresenter extends BasePresenter<GameView> implements MotionEven
         {
             handler.postDelayed(torch::flash, i * 350);
         }
-        view.switchToResultView(game.getScore());
+        view.switchToResultView(game.getScore(), game.getMoves());
     }
 
     public void registerMotionDetector(SensorManager sensorManager)
@@ -136,7 +143,7 @@ public class GamePresenter extends BasePresenter<GameView> implements MotionEven
 
     public void startTimer()
     {
-        timer = new Timer(timeUntilFinished, 100, this);
+        timer = new Timer(timeUntilFinished, 10, this);
         timer.start();
     }
 
@@ -145,29 +152,29 @@ public class GamePresenter extends BasePresenter<GameView> implements MotionEven
         timer.cancel();
     }
 
-    public Game getGame()
+    public Parcelable getGameParcelable()
     {
-        return new Game(game);
+        return Parcels.wrap(game);
     }
 
-    public long getTimestamp()
+    public long getLastUpdate()
     {
-        return timestamp;
+        return lastUpdate;
     }
 
-    public void setTimestamp(long timestamp)
+    public void setLastUpdate(long lastUpdate)
     {
-        this.timestamp = timestamp;
+        this.lastUpdate = lastUpdate;
     }
 
-    public long getTimeCooldown()
+    public long getCooldown()
     {
-        return timeCooldown;
+        return cooldown;
     }
 
-    public void setTimeCooldown(long timeCooldown)
+    public void setCooldown(long cooldown)
     {
-        this.timeCooldown = timeCooldown;
+        this.cooldown = cooldown;
     }
 
     public long getTimeUntilFinished()

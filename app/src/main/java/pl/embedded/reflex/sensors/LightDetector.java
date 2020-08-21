@@ -9,6 +9,8 @@ import pl.embedded.reflex.sensors.callbacks.LightEventListener;
 
 public class LightDetector implements SensorEventListener
 {
+    private static final double LUX_DAY = 150.0;
+    private static final double LUX_NIGHT = 30.0;
     private final LightEventListener listener;
     private boolean dark;
 
@@ -34,11 +36,11 @@ public class LightDetector implements SensorEventListener
     {
         double illuminance = event.values[0];
         boolean prevDark = dark;
-        if (illuminance < 30.0)
+        if (illuminance < LUX_NIGHT)
         {
             dark = true;
         }
-        if (illuminance > 80.0)
+        if (illuminance > LUX_DAY)
         {
             dark = false;
         }
