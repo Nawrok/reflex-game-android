@@ -7,16 +7,18 @@ import android.os.Handler;
 public class Torch
 {
     private final CameraManager cameraManager;
+    private final Handler handler;
 
     public Torch(CameraManager cameraManager)
     {
         this.cameraManager = cameraManager;
+        this.handler = new Handler();
     }
 
     public void flash()
     {
-        setMode(true);
-        new Handler().postDelayed(() -> setMode(false), 150);
+        handler.post(() -> setMode(true));
+        handler.postDelayed(() -> setMode(false), 150);
     }
 
     private void setMode(boolean enable)

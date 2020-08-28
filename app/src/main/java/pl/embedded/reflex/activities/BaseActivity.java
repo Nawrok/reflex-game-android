@@ -17,7 +17,7 @@ import pl.embedded.reflex.R;
 import pl.embedded.reflex.sensors.LightDetector;
 import pl.embedded.reflex.sensors.callbacks.LightEventListener;
 
-public abstract class BaseActivity extends LocaleAwareCompatActivity implements LightEventListener
+public class BaseActivity extends LocaleAwareCompatActivity implements LightEventListener
 {
     protected SensorManager sensorManager;
     private LightDetector lightDetector;

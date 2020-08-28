@@ -18,10 +18,10 @@ import pl.embedded.reflex.App;
 import pl.embedded.reflex.R;
 import pl.embedded.reflex.model.Game;
 import pl.embedded.reflex.model.Position;
-import pl.embedded.reflex.sensors.AudioPlayer;
 import pl.embedded.reflex.sensors.Torch;
 import pl.embedded.reflex.sensors.callbacks.MotionEventListener;
 import pl.embedded.reflex.sensors.motion.MotionDetector;
+import pl.embedded.reflex.sensors.SoundManager;
 import pl.embedded.reflex.util.timer.Timer;
 import pl.embedded.reflex.util.timer.TimerListener;
 import pl.embedded.reflex.view.GameView;
@@ -34,7 +34,6 @@ public class GamePresenter extends BasePresenter<GameView> implements MotionEven
     private final MotionDetector motionDetector;
     private final Torch torch;
     private final Vibrator vibrator;
-    private final AudioPlayer audioPlayer;
     private Timer timer;
     private long lastUpdate, cooldown, timeUntilFinished;
 
@@ -44,8 +43,6 @@ public class GamePresenter extends BasePresenter<GameView> implements MotionEven
         this.motionDetector = new MotionDetector(this);
         this.torch = new Torch((CameraManager) context.getSystemService(Context.CAMERA_SERVICE));
         this.vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-        this.audioPlayer = new AudioPlayer();
-        this.audioPlayer.load(context, R.raw.point);
     }
 
     public void displayGameScorePosition()
@@ -101,7 +98,7 @@ public class GamePresenter extends BasePresenter<GameView> implements MotionEven
                 randomizeGamePosition();
                 displayGameScorePosition();
                 torch.flash();
-                audioPlayer.play(R.raw.point);
+                SoundManager.getInstance().playSound(R.raw.point);
                 cooldown = 0;
             }
             if (position != Position.IDLE && cooldown >= 500)

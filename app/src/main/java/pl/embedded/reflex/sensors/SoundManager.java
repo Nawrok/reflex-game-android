@@ -6,12 +6,12 @@ import android.media.SoundPool;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AudioPlayer
+public class SoundManager
 {
     private final SoundPool soundPool;
     private final Map<Integer, Integer> sounds;
 
-    public AudioPlayer()
+    private SoundManager()
     {
         this.soundPool = new SoundPool.Builder()
                 .setMaxStreams(Integer.MAX_VALUE)
@@ -19,17 +19,27 @@ public class AudioPlayer
         this.sounds = new HashMap<>();
     }
 
-    public void load(Context context, int resId)
+    public static SoundManager getInstance()
+    {
+        return Holder.INSTANCE;
+    }
+
+    public void addSound(Context context, int resId)
     {
         sounds.put(resId, soundPool.load(context, resId, 1));
     }
 
-    public void play(int resId)
+    public void playSound(int resId)
     {
         Integer soundId = sounds.get(resId);
         if (soundId != null)
         {
             soundPool.play(soundId, 1, 1, 1, 0, 1f);
         }
+    }
+
+    private static class Holder
+    {
+        private static final SoundManager INSTANCE = new SoundManager();
     }
 }

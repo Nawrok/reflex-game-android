@@ -4,6 +4,8 @@ import android.app.Application;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
+import pl.embedded.reflex.sensors.SoundManager;
+
 public class App extends Application
 {
     public static final String GAME_PREFS_HIGHSCORE = "Highscore";
@@ -14,5 +16,6 @@ public class App extends Application
     {
         super.onCreate();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        SoundManager.getInstance().addSound(this, R.raw.point);
     }
 }
