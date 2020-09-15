@@ -9,7 +9,7 @@ import pl.embedded.reflex.sensors.callbacks.LightEventListener;
 
 public class LightDetector implements SensorEventListener
 {
-    private static final double LUX_DAY = 150.0;
+    private static final double LUX_DAY = 200.0;
     private static final double LUX_NIGHT = 30.0;
     private final LightEventListener listener;
     private boolean dark;

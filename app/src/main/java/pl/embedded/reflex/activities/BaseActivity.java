@@ -5,19 +5,15 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 
-import com.zeugmasolutions.localehelper.LocaleAwareCompatActivity;
-import com.zeugmasolutions.localehelper.LocaleHelper;
-
-import java.util.Locale;
+import com.akexorcist.localizationactivity.ui.LocalizationActivity;
 
 import pl.embedded.reflex.R;
 import pl.embedded.reflex.sensors.LightDetector;
 import pl.embedded.reflex.sensors.callbacks.LightEventListener;
 
-public class BaseActivity extends LocaleAwareCompatActivity implements LightEventListener
+public class BaseActivity extends LocalizationActivity implements LightEventListener
 {
     protected SensorManager sensorManager;
     private LightDetector lightDetector;
@@ -28,11 +24,6 @@ public class BaseActivity extends LocaleAwareCompatActivity implements LightEven
         super.onCreate(savedInstanceState);
         sensorManager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
         lightDetector = new LightDetector(this, (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES));
-        if (getIntent().getBooleanExtra("localeChanged", false))
-        {
-            Toast.makeText(this, R.string.lang_change, Toast.LENGTH_SHORT).show();
-            getIntent().removeExtra("localeChanged");
-        }
     }
 
     @Override
@@ -67,12 +58,9 @@ public class BaseActivity extends LocaleAwareCompatActivity implements LightEven
     }
 
     @Override
-    public void updateLocale(@NonNull Locale locale)
+    public void onAfterLocaleChanged()
     {
-        if (!locale.equals(LocaleHelper.INSTANCE.getLocale(this)))
-        {
-            super.updateLocale(locale);
-            getIntent().putExtra("localeChanged", true);
-        }
+        super.onAfterLocaleChanged();
+        Toast.makeText(this, R.string.lang_change, Toast.LENGTH_SHORT).show();
     }
 }

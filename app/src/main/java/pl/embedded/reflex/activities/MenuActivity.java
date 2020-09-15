@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.zeugmasolutions.localehelper.Locales;
+import java.util.Locale;
 
 import pl.embedded.reflex.R;
 
@@ -25,12 +25,12 @@ public class MenuActivity extends BaseActivity
         {
             case (R.id.english_lang_button):
             {
-                updateLocale(Locales.INSTANCE.getEnglish());
+                setLanguage(Locale.ENGLISH);
                 break;
             }
             case (R.id.polish_lang_button):
             {
-                updateLocale(Locales.INSTANCE.getPolish());
+                setLanguage("pl", "PL");
                 break;
             }
         }
